@@ -266,8 +266,16 @@ function App() {
               <Select
                 value={`${selectedModel.provider}-${selectedModel.name}`}
                 onValueChange={(value) => {
-                  const [provider, name] = value.split('-');
-                  setSelectedModel({ provider, name });
+                  // Create proper mapping for model selection
+                  const modelMapping = {
+                    'openai-gpt-5': { provider: 'openai', name: 'gpt-5' },
+                    'anthropic-claude-4-sonnet-20250514': { provider: 'anthropic', name: 'claude-4-sonnet-20250514' },
+                    'gemini-gemini-2.5-pro': { provider: 'gemini', name: 'gemini-2.5-pro' }
+                  };
+                  const model = modelMapping[value];
+                  if (model) {
+                    setSelectedModel(model);
+                  }
                 }}
               >
                 <SelectTrigger className="w-48 bg-white/80">
