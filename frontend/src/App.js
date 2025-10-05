@@ -346,9 +346,27 @@ function App() {
                       } shadow-sm`}
                       data-testid={msg.isUser ? "user-message" : "ai-message"}
                     >
-                      <p className="text-sm">
-                        {msg.isUser ? msg.message : msg.response}
-                      </p>
+                      {msg.isUser ? (
+                        <p className="text-sm">
+                          {msg.message}
+                        </p>
+                      ) : (
+                        <div className="text-sm">
+                          <ReactMarkdown 
+                            components={{
+                              p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                              ul: ({ children }) => <ul className="list-disc list-inside mb-2 space-y-1">{children}</ul>,
+                              ol: ({ children }) => <ol className="list-decimal list-inside mb-2 space-y-1">{children}</ol>,
+                              li: ({ children }) => <li className="ml-2">{children}</li>,
+                              strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+                              em: ({ children }) => <em className="italic">{children}</em>,
+                              br: () => <br />,
+                            }}
+                          >
+                            {msg.response}
+                          </ReactMarkdown>
+                        </div>
+                      )}
                       {!msg.isUser && !msg.is_safe && (
                         <Badge variant="secondary" className="mt-2 text-xs">
                           Content Filtered
